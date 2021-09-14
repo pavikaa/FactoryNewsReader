@@ -1,6 +1,7 @@
 package com.markopavicic.factorynewsreader;
 
 public class Article {
+
     public Article(String author, String title, String description, String url, String urlToImage, Object publishedAt) {
         this.author = author;
         this.title = title;
@@ -23,5 +24,9 @@ public class Article {
 
     public String getUrlToImage() {
         return urlToImage;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
