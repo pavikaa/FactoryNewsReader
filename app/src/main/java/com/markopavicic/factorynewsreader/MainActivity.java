@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -35,11 +39,14 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
     private NewsObject news;
     private long previousTimeMillis;
     private List<String> titles, urls, content;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         rvNews = findViewById(R.id.rvNews);
         rvNews.setLayoutManager(new LinearLayoutManager(this));
         rvAdapter = new NewsRecyclerAdapter(this);
@@ -61,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
             else
                 Toast.makeText(getApplicationContext(), "Za korištenje ove aplikacije potrebna je veza s Internetom.", Toast.LENGTH_LONG).show();
         }
+        else
+            rvAdapter.addData(titles, urls);
 
     }
     private void loadData() {
@@ -68,12 +77,14 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
         urls = new ArrayList<>();
         content = new ArrayList<>();
         Call<NewsObject> call = RetrofitClient.getInstance().getApi().loadData();
+        progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<NewsObject>() {
             @Override
             public void onResponse(Call<NewsObject> call, Response<NewsObject> response) {
                 news = response.body();
                 rvAdapter.addData(news.getTitles(), news.getUrlsToImages());
                 saveDataToSharedPrefs();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -95,7 +106,11 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
 
     @Override
     public void onNewsClick(int position) {
-
+        Intent i = new Intent(getApplicationContext(), NewsActivity.class);
+        i.putExtra("title", titles.get(position));
+        i.putExtra("imageUrl", urls.get(position));
+        i.putExtra("content", content.get(position));
+        startActivity(i);
     }
 
     private void saveDataToSharedPrefs() {
@@ -133,6 +148,5 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
         json = sharedPreferences.getString("content", null);
         content = gson.fromJson(json, type);
         previousTimeMillis = sharedPreferences.getLong("previousTimeMillis", 0);
-        rvAdapter.addData(titles, urls);
     }
 }
