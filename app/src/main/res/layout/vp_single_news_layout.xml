@@ -28,7 +28,6 @@
         android:layout_below="@id/tvNewsHeadline"
         android:layout_margin="15dp"
         android:textSize="16sp"
-        android:textColor="@color/black"
         android:lineSpacingExtra="2dp"/>
 
     </RelativeLayout>
