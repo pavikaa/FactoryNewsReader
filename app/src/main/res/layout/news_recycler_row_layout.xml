@@ -8,20 +8,16 @@
         android:scaleType="centerCrop"
         android:id="@+id/ivNews"
         />
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvScroll"
-        android:layout_margin="15dp"
-        android:layout_toRightOf="@id/ivNews">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="42dp"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:layout_toRightOf="@id/ivNews"
         android:id="@+id/tvNewsHeadlineRecycler"
-        android:maxLines="2"/>
-    </ScrollView>
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="50dp"
+        android:layout_margin="20dp"
+        />
 
 </RelativeLayout>
