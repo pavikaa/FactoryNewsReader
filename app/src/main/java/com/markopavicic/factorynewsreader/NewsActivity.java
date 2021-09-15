@@ -22,13 +22,17 @@ public class NewsActivity extends AppCompatActivity{
 
     private ViewPager2 viewPager;
     private ViewPager2Adapter pagerAdapter;
+    private Integer position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         viewPager = findViewById(R.id.vpNews);
         pagerAdapter = new ViewPager2Adapter(this);
+        Intent i = getIntent();
+        position = i.getIntExtra("position",0);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(position);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.backbutton);
         actionBar.setDisplayHomeAsUpEnabled(true);

@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
         i.putStringArrayListExtra("titles", titles);
         i.putStringArrayListExtra("imageUrls", urls);
         i.putStringArrayListExtra("content", content);
+        i.putExtra("position", position);
         startActivity(i);
     }
 
