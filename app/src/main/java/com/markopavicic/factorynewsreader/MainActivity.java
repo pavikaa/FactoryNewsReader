@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
     private NewsRecyclerAdapter rvAdapter;
     private NewsObject news;
     private long previousTimeMillis;
-    private List<String> titles, urls, content;
+    private ArrayList<String> titles, urls, content;
     private ProgressBar progressBar;
 
     @Override
@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
             public void onResponse(Call<NewsObject> call, Response<NewsObject> response) {
                 news = response.body();
                 rvAdapter.addData(news.getTitles(), news.getUrlsToImages());
+                titles = news.getTitles();
+                urls = news.getUrlsToImages();
+                content = news.getContent();
                 saveDataToSharedPrefs();
                 progressBar.setVisibility(View.GONE);
             }
@@ -107,9 +110,9 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
     @Override
     public void onNewsClick(int position) {
         Intent i = new Intent(getApplicationContext(), NewsActivity.class);
-        i.putExtra("title", titles.get(position));
-        i.putExtra("imageUrl", urls.get(position));
-        i.putExtra("content", content.get(position));
+        i.putStringArrayListExtra("titles", titles);
+        i.putStringArrayListExtra("imageUrls", urls);
+        i.putStringArrayListExtra("content", content);
         startActivity(i);
     }
 
