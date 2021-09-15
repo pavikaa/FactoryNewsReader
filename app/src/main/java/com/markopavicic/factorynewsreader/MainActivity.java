@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
             if (checkInternetConnection)
                 loadData();
             else
-                Toast.makeText(getApplicationContext(), "Za korištenje ove aplikacije potrebna je veza s Internetom.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Za prikaz novih vijesti potrebna je veza s Internetom.", Toast.LENGTH_LONG).show();
+                loadDataFromSharedPrefs();
         }
-        else
             rvAdapter.addData(titles, urls);
 
     }
