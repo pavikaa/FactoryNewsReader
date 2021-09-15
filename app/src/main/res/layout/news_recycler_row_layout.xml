@@ -3,19 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView
-        android:layout_width="128dp"
-        android:layout_height="72dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
         android:id="@+id/ivNews"
         />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvScroll"
+        android:layout_margin="15dp"
+        android:layout_toRightOf="@id/ivNews">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Test"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:textSize="15sp"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         android:layout_toRightOf="@id/ivNews"
-        android:layout_margin="5dp"
-        android:id="@+id/tvNewsHeadlineRecycler"/>
+        android:id="@+id/tvNewsHeadlineRecycler"
+        android:maxLines="2"/>
+    </ScrollView>
 
 </RelativeLayout>
