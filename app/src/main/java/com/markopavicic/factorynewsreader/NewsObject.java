@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsObject {
-    public String status;
-    public String source;
-    public String sortBy;
     public List<Article> articles;
 
     public ArrayList<String> getTitles() {

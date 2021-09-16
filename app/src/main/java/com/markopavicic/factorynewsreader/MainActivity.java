@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
     private long previousTimeMillis;
     private ArrayList<String> titles, urls, content;
     private ProgressBar progressBar;
+    Boolean checkInternetConnection = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +46,25 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
         rvNews.setLayoutManager(new LinearLayoutManager(this));
         rvAdapter = new NewsRecyclerAdapter(this);
         rvNews.setAdapter(rvAdapter);
-        previousTimeMillis = 0;
-        loadDataFromSharedPrefs();
 
-        Boolean checkInternetConnection = false;
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            checkInternetConnection = true;
-        } else
-            checkInternetConnection = false;
+        previousTimeMillis = 0;
+        checkInternetConnection = false;
+
+        loadDataFromSharedPrefs();
+        checkInternet();
 
         if (previousTimeMillis == 0 || System.currentTimeMillis() - previousTimeMillis > 300000) {
             if (checkInternetConnection)
                 loadData();
             else
                 Toast.makeText(getApplicationContext(), "Za prikaz novih vijesti potrebna je veza s Internetom.", Toast.LENGTH_LONG).show();
-            loadDataFromSharedPrefs();
         }
+    }
+
+    private void checkInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        checkInternetConnection = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
     private void loadData() {
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
                     }
                 });
                 alertBuilder.show();
-                Log.d("error", t.toString());
             }
         });
     }
@@ -122,14 +122,12 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
 
         long currentTimeMillis = System.currentTimeMillis();
 
-        if (previousTimeMillis == 0 || currentTimeMillis - previousTimeMillis > 300000) {
             sharedPreferences.edit().clear().commit();
             editor.putString("titles", titles);
             editor.putString("urls", urls);
             editor.putString("content", content);
             editor.putLong("previousTimeMillis", currentTimeMillis);
             editor.apply();
-        }
     }
 
     private void loadDataFromSharedPrefs() {
