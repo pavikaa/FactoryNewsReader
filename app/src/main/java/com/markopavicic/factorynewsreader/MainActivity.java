@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
                 Toast.makeText(getApplicationContext(), "Za prikaz novih vijesti potrebna je veza s Internetom.", Toast.LENGTH_LONG).show();
             loadDataFromSharedPrefs();
         }
-        rvAdapter.addData(titles, urls);
-
     }
 
     private void loadData() {
@@ -84,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
                 content = news.getContent();
                 saveDataToSharedPrefs();
                 progressBar.setVisibility(View.GONE);
+                rvAdapter.addData(titles, urls);
             }
 
             @Override
@@ -138,15 +137,18 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
         urls = new ArrayList<>();
         content = new ArrayList<>();
         SharedPreferences sharedPreferences = getSharedPreferences("SharedPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<String>>() {
-        }.getType();
-        String json = sharedPreferences.getString("titles", null);
-        titles = gson.fromJson(json, type);
-        json = sharedPreferences.getString("urls", null);
-        urls = gson.fromJson(json, type);
-        json = sharedPreferences.getString("content", null);
-        content = gson.fromJson(json, type);
-        previousTimeMillis = sharedPreferences.getLong("previousTimeMillis", 0);
+        if (sharedPreferences.contains("titles")) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
+            String json = sharedPreferences.getString("titles", null);
+            titles = gson.fromJson(json, type);
+            json = sharedPreferences.getString("urls", null);
+            urls = gson.fromJson(json, type);
+            json = sharedPreferences.getString("content", null);
+            content = gson.fromJson(json, type);
+            previousTimeMillis = sharedPreferences.getLong("previousTimeMillis", 0);
+            rvAdapter.addData(titles, urls);
+        }
     }
 }
