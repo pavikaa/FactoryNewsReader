@@ -41,6 +41,7 @@ public class NewsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.backbutton);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(StringUtils.abbreviate(titles.get(position), 30));
     }
 
     @Override
