@@ -3,7 +3,7 @@ package com.markopavicic.factorynewsreader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsObject{
+public class NewsObject {
     public String status;
     public String source;
     public String sortBy;

@@ -1,10 +1,7 @@
 package com.markopavicic.factorynewsreader;
 
-import android.text.method.ScrollingMovementMethod;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,8 +26,8 @@ public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public void onClick(View view) {
         clickListener.onNewsClick(getAdapterPosition());
     }
-    public void setContent(String imageUri, String headline)
-    {
+
+    public void setContent(String imageUri, String headline) {
         Picasso.with(itemView.getContext()).load(imageUri).into(ivNews);
         tvNewsHeadline.setText(headline);
     }

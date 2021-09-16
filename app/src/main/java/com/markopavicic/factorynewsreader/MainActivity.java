@@ -1,11 +1,5 @@
 package com.markopavicic.factorynewsreader;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,15 +12,16 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,11 +62,12 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
                 loadData();
             else
                 Toast.makeText(getApplicationContext(), "Za prikaz novih vijesti potrebna je veza s Internetom.", Toast.LENGTH_LONG).show();
-                loadDataFromSharedPrefs();
+            loadDataFromSharedPrefs();
         }
-            rvAdapter.addData(titles, urls);
+        rvAdapter.addData(titles, urls);
 
     }
+
     private void loadData() {
         titles = new ArrayList<>();
         urls = new ArrayList<>();

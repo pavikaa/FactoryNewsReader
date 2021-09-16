@@ -2,21 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <ImageView
+        android:id="@+id/ivNews"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:id="@+id/ivNews"
-        />
+        android:scaleType="centerCrop" />
+
     <TextView
+        android:id="@+id/tvNewsHeadlineRecycler"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:textSize="18sp"
-        android:layout_toRightOf="@id/ivNews"
-        android:id="@+id/tvNewsHeadlineRecycler"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="50dp"
         android:layout_margin="20dp"
-        />
+        android:layout_toRightOf="@id/ivNews"
+        android:fadingEdgeLength="50dp"
+        android:requiresFadingEdge="vertical"
+        android:textSize="18sp" />
 
 </RelativeLayout>
