@@ -8,6 +8,7 @@ public class Article {
     public String url;
     public String urlToImage;
     public Object publishedAt;
+
     public Article(String author, String title, String description, String url, String urlToImage, Object publishedAt) {
         this.author = author;
         this.title = title;
