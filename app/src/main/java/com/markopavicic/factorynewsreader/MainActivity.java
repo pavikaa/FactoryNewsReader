@@ -77,29 +77,37 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
             @Override
             public void onResponse(Call<NewsObject> call, Response<NewsObject> response) {
                 news = response.body();
-                rvAdapter.addData(news.getTitles(), news.getUrlsToImages());
-                titles = news.getTitles();
-                urls = news.getUrlsToImages();
-                content = news.getContent();
-                saveDataToSharedPrefs();
+
+                if (news == null) {
+                    showAlert();
+                } else {
+                    titles = news.getTitles();
+                    urls = news.getUrlsToImages();
+                    content = news.getContent();
+                    saveDataToSharedPrefs();
+                    rvAdapter.addData(titles, urls);
+                }
                 progressBar.setVisibility(View.GONE);
-                rvAdapter.addData(titles, urls);
             }
 
             @Override
             public void onFailure(Call<NewsObject> call, Throwable t) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertBuilder.setTitle("Greška");
-                alertBuilder.setMessage("Ups, došlo je do pogreške.");
-                alertBuilder.setPositiveButton("U redu", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //Dodati po potrebi
-                    }
-                });
-                alertBuilder.show();
+                showAlert();
             }
         });
+    }
+
+    private void showAlert() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertBuilder.setTitle("Greška");
+        alertBuilder.setMessage("Ups, došlo je do pogreške.");
+        alertBuilder.setPositiveButton("U redu", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Dodati po potrebi
+            }
+        });
+        alertBuilder.show();
     }
 
     @Override
