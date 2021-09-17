@@ -5,6 +5,9 @@ import java.util.List;
 
 public class NewsObject {
     public List<Article> articles;
+    public String status;
+    public String source;
+    public String sortBy;
 
     public ArrayList<String> getTitles() {
         ArrayList<String> titles = new ArrayList<>();
