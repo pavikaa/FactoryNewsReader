@@ -68,19 +68,20 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
     }
 
     private void loadData() {
-        titles = new ArrayList<>();
-        urls = new ArrayList<>();
-        content = new ArrayList<>();
         Call<NewsObject> call = RetrofitClient.getInstance().getApi().loadData();
         progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<NewsObject>() {
             @Override
             public void onResponse(Call<NewsObject> call, Response<NewsObject> response) {
+
                 news = response.body();
 
                 if (news == null) {
                     showAlert();
                 } else {
+                    titles = new ArrayList<>();
+                    urls = new ArrayList<>();
+                    content = new ArrayList<>();
                     titles = news.getTitles();
                     urls = news.getUrlsToImages();
                     content = news.getContent();
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
             @Override
             public void onFailure(Call<NewsObject> call, Throwable t) {
                 showAlert();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -127,15 +129,13 @@ public class MainActivity extends AppCompatActivity implements NewsClickListener
         String titles = gson.toJson(news.getTitles());
         String urls = gson.toJson(news.getUrlsToImages());
         String content = gson.toJson(news.getContent());
-
         long currentTimeMillis = System.currentTimeMillis();
-
-            sharedPreferences.edit().clear().commit();
-            editor.putString("titles", titles);
-            editor.putString("urls", urls);
-            editor.putString("content", content);
-            editor.putLong("previousTimeMillis", currentTimeMillis);
-            editor.apply();
+        sharedPreferences.edit().clear().commit();
+        editor.putString("titles", titles);
+        editor.putString("urls", urls);
+        editor.putString("content", content);
+        editor.putLong("previousTimeMillis", currentTimeMillis);
+        editor.apply();
     }
 
     private void loadDataFromSharedPrefs() {
